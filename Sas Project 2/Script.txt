@@ -1,0 +1,374 @@
+1.
+Attach screenshot 1
+Above is the summerized data of all the variables.
+
+proc means data=finalproject mean std;
+var time kps diagtime age;
+run;
+
+proc freq data=finalproject;
+table therapy;
+table cell;
+table status;
+table prior;
+run;
+
+2.
+Here we are going to test if there is association between type of therapy and cell type. We are going to use the logistic regression.
+Step1: Hypothesis
+	- H0: There is no association between type of therapy and cell type
+	vs
+	- H1: There is association between type of therapy and cell type
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 2-1
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model therapy(event="test")=cell;
+	run;
+	- From the result above, the p-value is 0.0089
+	- We have taken cell type Large as the reference.
+Step4:
+	- From the results above, the Wald chi-sq value is 9.4398 with degrees of freedom 2 and the associated p-value is 0.0089 which is less than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0089 is less than the alpha value 0.05, we reject the null hypothesis. We can conclude that there is significant association between type of therapy and cell type.
+	
+Now we are going to test specific association of Cell (AdenoVsLarge) and Therapy.
+
+Step1: Hypothesis
+	- H0: BcellAvsL = 0
+	vs
+	- H1: BcellAvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 2-2
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model therapy(event="test")=cell;
+	run;
+	- From the result above, the p-value is 0.0334
+Step4:
+	- From the results above, the Wald chi-sq value is 4.5248 with degrees of freedom 1 and the associated p-value is 0.0334 which is less than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0334 is less than the alpha value 0.05, we reject the null hypothesis. We can conclude that the log odds of association of therapy and cell type Adeno is different from cell type Large.
+	
+Now we are going to test specific association of Cell (SquamousVsLarge) and Therapy.
+
+Step1: Hypothesis
+	- H0: BcellSvsL = 0
+	vs
+	- H1: BcellSvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 2-2
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model therapy(event="test")=cell;
+	run;
+	- From the result above, the p-value is 0.2830
+Step4:
+	- From the results above, the Wald chi-sq value is 1.1526 with degrees of freedom 1 and the associated p-value is 0.2830 which is greater than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.2830 is greater than the alpha value 0.05, we fail to reject the null hypothesis. We can conclude that the log odds of association of therapy and cell type Squamous not so different from cell type Large.
+	
+From the above conclusions we can say that (Interpretation of regression coefficients),
+
+The log odds of therapy is 0.4899 more in paitents with Cell Type Adeno compared to Cell type Large.
+The log odds of therapy is 0.2242 more in paitents with Cell Type Squamous compared to Cell type Large.
+
+3.
+Here we are going to test if there is significant effect of Cell type on KPS and we are going to use logistic regression.
+Step1: Hypothesis
+	- H0: There is no significant effect of Cell type on KPS.
+	vs
+	- H1: There is significant effect of Cell type on KPS.
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 3-1
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model kps=cell;
+	run;
+	- From the result above, the p-value is 0.0115
+	- We have taken cell type Large as the reference.
+Step4:
+	- From the results above, the Wald chi-sq value is 8.9222 with degrees of freedom 2 and the associated p-value is 0.0115 which is less than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0115 is less than the alpha value 0.05, we reject the null hypothesis. We can conclude that there is significant effect of Cell type on KPS.
+	
+Now we are going to test specific effect of Cell (AdenoVsLarge) and KPS.
+
+Step1: Hypothesis
+	- H0: BcellAvsL = 0
+	vs
+	- H1: BcellAvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 3-2
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model kps=cell;
+	run;
+	- From the result above, the p-value is 0.0163
+Step4:
+	- From the results above, the Wald chi-sq value is 5.7661 with degrees of freedom 1 and the associated p-value is 0.0163 which is less than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0163 is less than the alpha value 0.05, we reject the null hypothesis. We can conclude that the log odds of association of KPS for paitents with Cell Type Adeno is significantly different from Cell type Large.
+	
+Now we are going to test specific association of Cell (SquamousVsLarge) and KPS.
+
+Step1: Hypothesis
+	- H0: BcellSvsL = 0
+	vs
+	- H1: BcellSvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 3-2
+	proc logistic data=finalproject;
+		class cell(ref="Large")/param=ref;
+		model kps=cell;
+	run;
+	- From the result above, the p-value is 0.5268
+Step4:
+	- From the results above, the Wald chi-sq value is 0.4005 with degrees of freedom 1 and the associated p-value is 0.5268 which is greater than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.5268 is greater than the alpha value 0.05, we fail to reject the null hypothesis. We can conclude that the log odds of association of KPS for paitents with Cell Type Squamous is not significantly different from Cell type Large.
+
+From the above conclusions we can say that (Interpretation of regression coefficients),
+
+The log odds of KPS is 0.4651 more in paitents with Cell Type Adeno compared to Cell type Large.
+The log odds of KPS is 0.1118 more in paitents with Cell Type Squamous compared to Cell type Large.
+
+4.
+First we are going to model the crude relationship between the Type of therapy and KPS.
+I have taken Standard therapy type as reference.
+Attach 4-1
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy /solution;
+run;
+
+From the above result, as the p value is less than 0.05, we can conclude that there is a relation between the Type of therapy and KPS.
+
+Next I will check for the interaction for each potential variables.
+
+Attach 4-2
+proc glm data=finalproject;
+class therapy(ref="standard") cell(ref="Large");
+model kps=therapy cell therapy*cell /solution;
+run;
+
+As there is one significant interaction term which is BTherapy*Cell(SquamousVsLarge), so the overall interaction is significant.
+
+Attach 4-3
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy age therapy*age /solution;
+run;
+
+As the p value (0.9813) of the interaction term is greater than 0.05, the interaction is insignificant.
+
+Attach 4-5
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy time therapy*time /solution;
+run;
+As the p value (0.8277) of the interaction term is greater than 0.05, the interaction is insignificant.
+
+Attach 4-6
+proc glm data=finalproject;
+class therapy(ref="standard") status(ref="0");
+model kps=therapy status therapy*status /solution;
+run;
+As the p value (0.6625) of the interaction term is greater than 0.05, the interaction is insignificant.
+
+Attach 4-7
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy diagtime therapy*diagtime /solution;
+run;
+As the p value (0.9210) of the interaction term is greater than 0.05, the interaction is insignificant.
+
+Attach 4-8
+proc glm data=finalproject;
+class therapy(ref="standard") prior(ref="no");
+model kps=therapy prior therapy*prior /solution;
+run;
+As the p value (0.1812) of the interaction term is greater than 0.05, the interaction is insignificant.
+
+Now we check for cofounding
+Attach 4-1
+
+Attach 4-4
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy age /solution;
+run;
+
+%change = [(-6.00729164--6.39358974)/-6.00729164)]*100 = 6.4258% < 10%
+So, age is not considered as the cofounder.
+
+Attach 4-9
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy time /solution;
+run;
+
+%change = [(-7.27007235--6.39358974)/-7.27007235)]*100 = 12.05% > 10%
+So, time is considered as the cofounder.
+
+Attach 4-10
+proc glm data=finalproject;
+class therapy(ref="standard") status(ref="0");
+model kps=therapy status /solution;
+run;
+
+%change = [(-6.17189650--6.39358974)/-6.17189650)]*100 = -3.5921% < 10%
+So, status is not considered as the cofounder.
+
+Attach 4-11
+proc glm data=finalproject;
+class therapy(ref="standard");
+model kps=therapy diagtime /solution;
+run;
+
+%change = [(-7.17268261--6.39358974)/-7.17268261)]*100 = 10.86% > 10%
+So, diagtime is considered as the cofounder.
+
+Attach 4-12
+proc glm data=finalproject;
+class therapy(ref="standard") prior(ref="no");
+model kps=therapy prior /solution;
+run;
+
+%change = [(-6.58187135--6.39358974)/-6.58187135)]*100 = 2.8609% < 10%
+So, prior is not considered as the cofounder.
+
+So, the final model is 
+
+Attach 4-13
+proc glm data=finalproject;
+class therapy(ref="standard") cell(ref="Large");
+model kps=therapy cell therapy*cell time diagtime/solution;
+run;
+
+Prediction equation is:
+kps = 68.64-14.59therapy(TvsSt)-8.48cell(AvsL)-11.29(SvsL)+7.49(therapy(TvsSt)*cell(AvsL))+13.21(therapy(TvsSt)*cell(SvsL))+0.03time-0.31diagtime
+
+Interpretation of regression coefficients:
+Interpreting kps for therapy type of test (non-reference level so we take it as 1):
+kps = 68.64-14.59(1)-8.48cell(AvsL)-11.29(SvsL)+7.49(1*cell(AvsL))+13.21(1*cell(SvsL))+0.03time-0.31diagtime
+	= 68.64-14.59+7.49+13.21-8.48cell(AvsL)-11.29(SvsL)+7.49cell(AvsL)+13.21cell(SvsL)+0.03time-0.31diagtime
+	= 74.75-0.99cell(AvsL)+1.92cell(SvsL)+0.03time-0.31diagtime
+
+For the therapy type Test, the kps for cell type Adeno is 0.99 times less than cell type Large with increase in 0.03 days and decrease in 0.31 waiting days.
+
+For the therapy type Test, the kps for cell type Squamous is 1.92 times higher than cell type Large with increase in 0.03 days and decrease in 0.31 waiting days.
+
+Interpreting kps for therapy type of Standard (non-reference level so we take it as 0):
+kps = 68.64-14.59(0)-8.48cell(AvsL)-11.29(SvsL)+7.49(0*cell(AvsL))+13.21(0*cell(SvsL))+0.03time-0.31diagtime
+	= 68.64-8.48cell(AvsL)-11.29(SvsL)+0.03time-0.31diagtime
+
+For the therapy type Standard, the kps for cell type Adeno is 8.48 times less than cell type Large with increase in 0.03 days and decrease in 0.31 waiting days.
+
+For the therapy type Standard, the kps for cell type Squamous is 11.29 times less than cell type Large with increase in 0.03 days and decrease in 0.31 waiting days.
+
+5.
+Creating a new field:
+Attach 5-1
+data finalprojectnew;
+set finalproject;
+if kps > 60 then kpsc="high";
+if kps <= 60 then kpsc="low";
+run;
+
+Here we are going to test if there is significant effect of Cell type on KPSC.
+Step1: Hypothesis
+	- H0: There is no significant effect of Cell type on KPSC.
+	vs
+	- H1: There is significant effect of Cell type on KPSC.
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 5-2
+	proc logistic data=finalprojectnew;
+		class cell(ref="Large")/param=ref;
+		model kpsc(event="low")=cell;
+	run;
+	- From the result above, the p-value is 0.0245
+	- We have taken cell type Large as the reference.
+Step4:
+	- From the results above, the Wald chi-sq value is 7.4210 with degrees of freedom 2 and the associated p-value is 0.0245 which is less than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0245 is less than the alpha value 0.05, we reject the null hypothesis. We can conclude that there is overall significant effect of Cell type on KPSC.
+	
+Now we are going to test specific effect of Cell (AdenoVsLarge) and KPS.
+
+Step1: Hypothesis
+	- H0: BcellAvsL = 0
+	vs
+	- H1: BcellAvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 5-3
+	proc logistic data=finalprojectnew;
+		class cell(ref="Large")/param=ref;
+		model kpsc(event="low")=cell;
+	run;
+	- From the result above, the p-value is 0.0565
+Step4:
+	- From the results above, the Wald chi-sq value is 3.6363 with degrees of freedom 1 and the associated p-value is 0.0565 which is greater than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.0565 is greater than the alpha value 0.05, we fail to reject the null hypothesis. We can conclude that the log odds of association of KPSC for paitents with Cell Type Adeno is not significantly different from Cell type Large.
+	
+Now we are going to test specific association of Cell (SquamousVsLarge) and KPSC.
+
+Step1: Hypothesis
+	- H0: BcellAvsL = 0
+	vs
+	- H1: BcellAvsL not equals to zero
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	- Attach 5-3
+	proc logistic data=finalprojectnew;
+		class cell(ref="Large")/param=ref;
+		model kpsc(event="low")=cell;
+	run;
+	- From the result above, the p-value is 0.3046
+Step4:
+	- From the results above, the Wald chi-sq value is 1.0540 with degrees of freedom 1 and the associated p-value is 0.3046 which is greater than the alpha value 0.05.
+Step5: 
+	- As the p-value is 0.3046 is greater than the alpha value 0.05, we fail to reject the null hypothesis. We can conclude that the log odds of association of KPSC for paitents with Cell Type Squamous is not significantly different from Cell type Large.
+	
+6.
+Here now we are going to conduct a hypothesis test to check wheather treatment have an effect on KPSC using Logistic regression.
+
+Step1: Hypothesis
+	- H0: There is no significant effect of treatment on KPSC.
+	vs
+	- H1: There is significant effect of treatment on KPSC.
+Step2: 
+	- Significant level alpha = 0.05
+Step3: 
+	proc logistic data=finalprojectnew;
+		class therapy(ref="standard") cell(ref="Large") prior(ref="no")/param=ref;
+		model kpsc(event="low")=therapy cell age diagtime prior;
+	run;
+	- Attach 6-1
+	- From the result above, check the design variables
+	- We have already told SAS to choose standard for therapy, Large for cell, no for prior as reference groups resptectively. We can confirm this from the above screenshot.
+	- Attach 6-2
+	- From the above screenshot, after adjusting the variables age, cell type, diagnosis time, prior, the p-value of therapy is 0.0954.
+Step4:
+	- From the results above, the Wald chi-sq value is 2.7801 with degrees of freedom 1 and the associated p-value is 0.0954 which is greater than the alpha value 0.05. This is same for Btherapy(TestvsStandard).
+Step5: 
+	- As the p-value is 0.0954 is greater than the alpha value 0.05, we fail to reject the null hypothesis. We can conclude that there is no significant effect of Treatment on KPSC.
+	
